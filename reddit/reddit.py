@@ -1,44 +1,5 @@
-import asyncio
 import discord
-import random
-import requests
-import time
-import mimetypes
-from   datetime import datetime
-from   urllib.parse import quote
-from   html.parser import HTMLParser
-from   os.path import splitext
 from   discord.ext import commands
-from   Cogs import Settings
-from   Cogs import GetImage
-from   Cogs import Message
-from   Cogs import ReadableTime
-from   Cogs import UserTime
-from   Cogs import DL
-from   pyquery import PyQuery as pq
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
-
-def setup(bot):
-	# Add the bot and deps
-	settings = bot.get_cog("Settings")
-	bot.add_cog(Reddit(bot, settings))
-
-# This module grabs Reddit posts and selects one at random
-
-class MLStripper(HTMLParser):
-	def __init__(self):
-		super().__init__()
-		self.reset()
-		self.fed = []
-	def handle_data(self, d):
-		self.fed.append(d)
-	def get_data(self):
-		return ''.join(self.fed)
-
 
 class Reddit:
 
@@ -100,7 +61,7 @@ class Reddit:
 			# We need the image or the answer
 			return {'title' : theJSON['title'], 'url' : theJSON["url"]}
 
-	async def getText(self, url):
+	async getText(self, url):
 		# Load url - with self.posts number of posts
 		r = await DL.async_json(url, {'User-agent': self.ua})
 		gotLink = False
